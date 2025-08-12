@@ -1,5 +1,5 @@
 # Kafka Playground
-# ================
+==================
 
 This repo serves as a very simple "playground" in which you can experiment with a local Kafka broker: publishing and consuming messages.
 
