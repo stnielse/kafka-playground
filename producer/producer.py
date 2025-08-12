@@ -49,12 +49,12 @@ signal.signal(signal.SIGTERM, shutdown)
 print(f"[producer] Starting. Producing to {TOPIC} at {MESSAGE_RATE} msg/s (interval={INTERVAL:.3f}s).")
 try:
     for seq in range(5):  # Only send 5 messages
-    payload = make_message()
-    key = str(seq).encode("utf-8")
-    value = json.dumps(payload).encode("utf-8")
-    producer.produce(TOPIC, key=key, value=value, callback=acked)
-    producer.poll(0)
-    time.sleep(INTERVAL)
+        payload = make_message()
+        key = str(seq).encode("utf-8")
+        value = json.dumps(payload).encode("utf-8")
+        producer.produce(TOPIC, key=key, value=value, callback=acked)
+        producer.poll(0)
+        time.sleep(INTERVAL)
 except Exception as e:
     print(f"[producer] Error: {e}")
 finally:
