@@ -31,6 +31,7 @@ services:
       BOOTSTRAP_SERVERS: kafka:29092
       TOPIC_NAME: test-topic
       MESSAGE_RATE: "2"
+    restart: "no"
 
   consumer:
     build:

@@ -4,6 +4,7 @@ import json
 import uuid
 import random
 import signal
+import sys
 from datetime import datetime
 from confluent_kafka import Producer
 
@@ -30,7 +31,7 @@ def acked(err, msg):
 def make_message():
     return {
         "id": str(uuid.uuid4()),
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(datetime.timezone.utc) + "Z",
         "value": random.random(),
         "category": random.choice(["alpha", "beta", "gamma", "delta"]),
         "meta": {
@@ -48,15 +49,20 @@ signal.signal(signal.SIGTERM, shutdown)
 
 print(f"[producer] Starting. Producing to {TOPIC} at {MESSAGE_RATE} msg/s (interval={INTERVAL:.3f}s).")
 try:
-    for seq in range(5):  # Only send 5 messages
+    message_count = 5  # Only send 5 messages
+    print(f"[producer] Will send {message_count} messages")
+    for seq in range(message_count):  
         payload = make_message()
         key = str(seq).encode("utf-8")
         value = json.dumps(payload).encode("utf-8")
         producer.produce(TOPIC, key=key, value=value, callback=acked)
         producer.poll(0)
         time.sleep(INTERVAL)
+    print("[producer] Successfully sent all messages")
+    sys.exit(0)  # Explicitly exit with success code
 except Exception as e:
     print(f"[producer] Error: {e}")
+    sys.exit(1)  # Explicitly exit with error code
 finally:
     print("[producer] Flushing pending messages...")
     producer.flush(timeout=10)
