@@ -4,7 +4,7 @@ Kafka Playground
 This repo serves as a very simple "playground" in which you can experiment with a local Kafka broker: publishing and consuming messages.
 
 > [!IMPORTANT]
-> Note that I'm currently working on fixing a recursive production bug. Just be careful that the block of messages will send infinitely in current-state.*
+> Note that I'm currently working on fixing a recursive production bug. Just be careful that the block of messages will send infinitely in current-state!
 
 
 ## Base Structure
